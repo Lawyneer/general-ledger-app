@@ -1,4 +1,7 @@
-# Ledger
+# general-ledger-app
+
+![CI](https://github.com/Lawyneer/general-ledger-app/actions/workflows/ci.yml/badge.svg)
+
 
 A minimal, self-hosted, double-entry accounting web application for personal
 bookkeeping. Tracks transactions through journal entries and produces core 
