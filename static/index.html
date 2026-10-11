@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ledger</title>
+<script>
+  // apply saved/system theme before paint to avoid flash
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme: dark)').matches))
+      document.documentElement.classList.add('dark');
+  } catch (e) {}
+</script>
+<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<nav>
+  <button data-tab="register" class="active">Register</button>
+  <button data-tab="accounts">Accounts</button>
+  <button data-tab="statements">Statements</button>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+</nav>
+
+<section id="tab-register">
+  <div class="toolbar">
+    <label>From <input type="date" id="j-from"></label>
+    <label>To <input type="date" id="j-to"></label>
+    <button onclick="loadJournal()">Apply</button>
+    <button onclick="openModal()" style="margin-left:auto">＋ New Entry</button>
+  </div>
+  <table id="journal-table">
+    <thead><tr><th>Date</th><th>Description</th><th>Account</th><th>Memo</th>
+      <th class="num">Debit</th><th class="num">Credit</th><th></th></tr></thead>
+    <tbody></tbody>
+    <tfoot><tr><th colspan="4" class="right">Totals</th>
+      <th class="num" id="tot-d"></th><th class="num" id="tot-c"></th><th></th></tr></tfoot>
+  </table>
+  <button id="j-more" onclick="page++;loadJournal()" hidden>Load more</button>
+</section>
+
+<section id="tab-accounts" hidden>
+  <div class="toolbar">
+    <label>Name <input id="a-name"></label>
+    <label>Type <select id="a-type">
+      <option>ASSET</option><option>BANK</option><option>CASH</option>
+      <option>LIABILITY</option><option>EQUITY</option>
+      <option>INCOME</option><option>EXPENSE</option></select></label>
+    <label>Parent <select id="a-parent"></select></label>
+    <button onclick="createAccount()">Add account</button>
+  </div>
+  <table><thead><tr><th>Account</th><th>Type</th><th class="num">Balance</th><th></th></tr></thead>
+    <tbody id="a-list"></tbody></table>
+</section>
+
+<section id="tab-statements" hidden>
+  <div class="toolbar">
+    <select id="s-kind">
+      <option value="trial-balance">Trial Balance</option>
+      <option value="income-statement">Income Statement</option>
+      <option value="balance-sheet">Balance Sheet</option>
+      <option value="cash-flow">Cash Flow</option>
+    </select>
+    <label id="s-from-l" hidden>From <input type="date" id="s-from"></label>
+    <label id="s-to-l" hidden>To <input type="date" id="s-to"></label>
+    <label id="s-asof-l">As of <input type="date" id="s-asof"></label>
+    <button onclick="runStatement()">Run</button>
+    <button onclick="exportTB()">Export Trial Balance (Excel)</button>
+  </div>
+  <div id="s-out"></div>
+</section>
+
+<div id="overlay" hidden>
+  <div id="modal">
+    <h3 id="m-title">New Entry</h3>
+    <label>Date <input type="date" id="m-date"></label>
+    <label>Description <input id="m-desc" size="30"></label>
+    <label>Num/Ref <input id="m-num" size="10"></label>
+    <table id="m-splits">
+      <thead><tr><th>Account</th><th>Debit</th><th>Credit</th><th>Memo</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <button onclick="addSplitRow()">＋ split</button>
+    <span id="m-balance"></span>
+    <hr>
+    <button onclick="saveEntry()" id="m-save">Save</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="/static/js/core.js"></script>
+<script src="/static/js/theme.js"></script>
+<script src="/static/js/accounts.js"></script>
+<script src="/static/js/journal.js"></script>
+<script src="/static/js/statements.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

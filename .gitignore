@@ -1,0 +1,32 @@
+# Data (never publish your financial records)
+ledger.db
+ledger.db-journal
+ledger.db-shm
+ledger.db-wal
+*.gnucash
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+ledger_env/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Exports / downloaded statements
+*.xlsx
+*.csv
